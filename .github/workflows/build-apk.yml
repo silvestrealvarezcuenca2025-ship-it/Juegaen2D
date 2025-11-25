@@ -1,0 +1,27 @@
+name: Build LÖVE APK
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Create game.love
+        run: zip -r game.love main.lua replit.nix
+      
+      - name: Build APK
+        uses: love-actions/love-actions-android@v1
+        with:
+          app-name: "Juega en 2D"
+          bundle-id: "com.juegaen2d.game"
+          love-package: ./game.love
+      
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: APK
+          path: app/build/outputs/apk/release/*.apk￼Enter
